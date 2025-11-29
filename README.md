@@ -1,10 +1,10 @@
-# Self‑hosted Podman & Actions Runner Controller (SPARC)
+# Container Engine Actions Runner Controller (CE-ARC)
 
-A lightweight autoscaling self‑hosted runners with podman
+A lightweight autoscaling self‑hosted GitHub runners with podman or docker
 
 # About
 
-SPARC is a lightweight solution to automatically scale and provision self-hosted GitHub Actions runners based on queued jobs for podman. This repository provides a server written in Go that listen to GitHub workflow Webhook events, register runners to a GitHub organization or repository, and a Dockerfile to build GitHub runners containers image.
+CE-ARC is a lightweight solution to automatically scale and provision self-hosted GitHub Actions runners based on queued jobs for podman. This repository provides a server written in Go that listen to GitHub workflow Webhook events, register runners to a GitHub organization or repository, and a Dockerfile to build GitHub runners containers image.
 
 ## Why this project
 
