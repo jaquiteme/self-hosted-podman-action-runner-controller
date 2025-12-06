@@ -34,15 +34,16 @@ jobs:
         with:
           image: "${{ secrets.CT_REGISTRY_USERNAME }}/${{ env.BINARY_FILENAME }}"
           tags: "${{ steps.set-tag.outputs.image_tag }}"
+          context: ./runner
           containerfiles: |
             ./runner/Dockerfile
 
-      - name: "Push to the container registry : ${{ env.REGISTRY }}"
+      - name: "Push to the container registry"
         id: "push-to-registry"
         uses: redhat-actions/push-to-registry@v2
         with:
           image: "${{ steps.build-image.outputs.image }}"
-          tags: "${{ steps.build-image.outputs.tags }}"
+          tags: "latest ${{ steps.build-image.outputs.tags }}"
           registry: ${{ secrets.CT_REGISTRY }}
           username: ${{ secrets.CT_REGISTRY_USERNAME }}
           password: ${{ secrets.CT_REGISTRY_PASSWORD }}
