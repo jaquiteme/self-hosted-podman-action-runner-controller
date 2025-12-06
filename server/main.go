@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 
 	docker "github.com/fsouza/go-dockerclient"
 )
@@ -245,11 +246,28 @@ func (sm *ServerConfigManager) webhookHandler(w http.ResponseWriter, r *http.Req
 
 // containerImageExists check if a container image exists
 func IsContainerImageExists(client *docker.Client, imageName string) (bool, error) {
-	_, err := client.InspectImage(imageName)
-	if err != nil {
-		return false, fmt.Errorf("Container image %s not found: %v", imageName, err)
+	// Check if image exists locally
+	if _, err := client.InspectImage(imageName); err == nil {
+		infoLogger.Printf("Container image %s found.", imageName)
+		return true, nil
 	}
-	infoLogger.Printf("Container image %s found.", imageName)
+
+	// Try to pull image from registry
+	parts := strings.Split(imageName, ":")
+	if len(parts) != 2 {
+		return false, fmt.Errorf("invalid image name format: %s (expected repo:tag)", imageName)
+	}
+
+	warningLogger.Printf("Container image %s not found locally, attempting to pull", imageName)
+
+	if err := client.PullImage(docker.PullImageOptions{
+		Repository: parts[0],
+		Tag:        parts[1],
+	}, docker.AuthConfiguration{}); err != nil {
+		return false, fmt.Errorf("failed to pull container image %s: %w", imageName, err)
+	}
+
+	infoLogger.Printf("Container image %s pulled successfully.", imageName)
 	return true, nil
 }
 
