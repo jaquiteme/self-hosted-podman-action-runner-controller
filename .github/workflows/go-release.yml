@@ -26,7 +26,7 @@ jobs:
         id: set-tag
         run: |
           tag="${{ github.ref_name }}"
-          echo "image_tag=${tag:1}"
+          echo "image_tag=${tag:1}" >> "$GITHUB_OUTPUT"
 
       - name: Build image
         id: build-image
