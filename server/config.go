@@ -29,7 +29,7 @@ type Config struct {
 //     GH_RUNNER_TOKEN, GH_RUNNER_CT_IMAGE) are missing, readConfig returns
 //     a non-nil error explaining which environment variable is required.
 //   - On success it returns the populated Config and a nil error.
-func ReadConfig() (Config, error) {
+func ReadConfig() (*Config, error) {
 	cfg := Config{
 		RunnerRepoPath:        os.Getenv("GH_RUNNER_REPO_PATH"),
 		RunnerRepoAccessToken: os.Getenv("GH_RUNNER_REPO_ACCESS_TOKEN"),
@@ -41,15 +41,15 @@ func ReadConfig() (Config, error) {
 	if cfg.RunnerRepoPath != "" {
 		infoLogger.Println("Current server repo path:", cfg.RunnerRepoPath)
 	} else {
-		return Config{}, fmt.Errorf("The server cannot run without env variable 'GH_RUNNER_REPO_PATH'")
+		return &Config{}, fmt.Errorf("The server cannot run without env variable 'GH_RUNNER_REPO_PATH'")
 	}
 	// Check if github runner is provided; the server will exit if this variable is not set
 	if cfg.RunnerContainerImage == "" {
-		return Config{}, fmt.Errorf("The server cannot run without env variable 'GH_RUNNER_CT_IMAGE'")
+		return &Config{}, fmt.Errorf("The server cannot run without env variable 'GH_RUNNER_CT_IMAGE'")
 	}
 	// Check if github runner token is provided; the server will exit if this variable is not set
 	if cfg.RunnerRepoAccessToken == "" {
-		return Config{}, fmt.Errorf("The server cannot run without env variable 'GH_RUNNER_REPO_ACCESS_TOKEN'")
+		return &Config{}, fmt.Errorf("The server cannot run without env variable 'GH_RUNNER_REPO_ACCESS_TOKEN'")
 	}
-	return cfg, nil
+	return &cfg, nil
 }

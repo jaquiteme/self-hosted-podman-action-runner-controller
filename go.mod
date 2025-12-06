@@ -1,4 +1,4 @@
-module self-hosted-gh-runner-autoscale
+module github.com/jaquiteme/container-engine-actions-runner-controller
 
 go 1.25.4
 

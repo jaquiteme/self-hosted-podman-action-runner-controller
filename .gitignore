@@ -1,4 +1,13 @@
 # VSCode
 .vscode/
 
-/bin/
+# Binary files
+*.exe
+
+bin
+
+*.pem
+*.test
+
+# OS
+.DS_STORE
