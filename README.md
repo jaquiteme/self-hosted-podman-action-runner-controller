@@ -48,7 +48,7 @@ CE-ARC is a lightweight solution to automatically scale and provision self-hoste
 
 ## Quickstart
 
-:bulb: Use [ngrok](https://ngrok.com/download/) (you will be required to set up an account) or any other reverse-proxy service to allow GitHub to send workflow events to ``ce-arc-server``.
+:bulb: Use [ngrok](https://ngrok.com/download/) (you will be required to set up an account) or any other tunnel service to allow GitHub to send workflow events to ``ce-arc-server``.
 
 ### Option 1: Build from Source
 
