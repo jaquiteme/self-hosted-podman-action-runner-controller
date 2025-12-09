@@ -106,8 +106,15 @@ VERSION="v1.0.0"
 && chmod +x /usr/local/bin/ce-arc-server
 ```
 
-5. Create and configure a webhook for your repository or organization ([GitHub docs](https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks#creating-a-repository-webhook)).
+5. Create and configure a webhook with workflow events for your repository or organization ([GitHub docs](https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks#creating-a-repository-webhook)).
+
+On GitHub set Payload url with https://your-server-url/webhook
+
+![alt webhook-config-url](./img/webhook-config-url.png)
+![alt webhook-config-workflow-event](./img/webhook-config-workflow-event.png)
+
 6. Create an access token with `repo` scope (private repositories) or `admin:org` scope (organizations) ([GitHub docs](https://docs.github.com/en/actions/reference/runners/self-hosted-runners#authentication-requirements)).
+
 7. Start the server:
 
 ```bash
@@ -117,6 +124,17 @@ GH_RUNNER_REPO_PATH="name/repo"
 GH_RUNNER_REPO_ACCESS_TOKEN="ghp_XXXXXXXXXXXXXX"
 GH_RUNNER_CT_IMAGE="docker.io/202047/gh-runner:latest"
 ce-arc-server
+```
+
+![alt ce-arc-server-starting](./img/ce-arc-server-server-starting.png)
+
+8. Change your workflow code to use a self-hosted runner
+
+```yaml
+jobs:
+  test-job:
+    name: Test self-hosted runner
+    runs-on: [self-hosted]
 ```
 
 ## Configuration
